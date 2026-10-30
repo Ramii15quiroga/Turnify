@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turnify SW - Guía Visual Sprint 1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar and subtle transitions */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 9999px; }
+    .tab-btn.active {
+      background-color: #4f46e5;
+      color: #ffffff;
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -2px rgba(79, 70, 229, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased p-4 sm:p-8 font-sans">
+  <div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Hero / Header -->
+    <header class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-56 h-56 bg-indigo-50 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <div class="space-y-3 relative z-10">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-xs font-bold tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>SPRINT 1 COMPLETADO AL 100% (58 STORY POINTS)</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Turnify <span class="text-indigo-600">SW</span>
+        </h1>
+        <p class="text-slate-600 text-sm max-w-2xl leading-relaxed">
+          Guía técnica y visual del sistema web de reserva y gestión de turnos online. Base del sistema, autenticación por roles, catálogo, disponibilidad dinámica y prevención de turnos duplicados.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 relative z-10">
+        <a 
+          href="https://github.com/Ramii15quiroga/Turnify.git" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center space-x-2 px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl shadow-md transition"
+        >
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>Ver Repositorio GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
+      <button onclick="switchTab('tasks')" id="tab-btn-tasks" class="tab-btn active px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
+        📋 Tareas y Criterios (Jira)
+      </button>
+      <button onclick="switchTab('credentials')" id="tab-btn-credentials" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
+        🔑 Credenciales Precargadas
+      </button>
+      <button onclick="switchTab('execution')" id="tab-btn-execution" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
+        🚀 Guía de Ejecución Local
+      </button>
+      <button onclick="switchTab('architecture')" id="tab-btn-architecture" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
+        🏛️ Arquitectura y Modelo 3FN
+      </button>
+    </div>
+
+    <!-- TAB 1: Tareas y Criterios de Aceptación -->
+    <section id="tab-tasks" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Cobertura Integral de Sprint 1</h2>
+          <p class="text-slate-500 text-xs mt-0.5">13 historias principales y 24 subtareas cumplidas con verificación de pruebas</p>
+        </div>
+        <div class="relative max-w-xs w-full">
+          <input 
+            type="text" 
+            id="taskSearch" 
+            oninput="filterTasks()" 
+            placeholder="Buscar por tarea o palabra clave..." 
+            class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+          >
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="tasksGrid">
+
+        <!-- SCRUM-9 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-9</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">Preparación de BD y Estructura</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">8 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Estructura monorepo (`backend/` y `frontend/`), modelo relacional en <strong>3ª Forma Normal</strong> con SQLite y Prisma ORM, restricciones de integridad, migraciones y scripts de inicio.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Épica: E0 · Base técnica</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-5 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-5 · HU-01</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-01: Registro de Usuarios</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">3 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Formulario con validación de obligatoriedad, correo único y contraseña cifrada con `bcrypt` (mín. 6 caracteres). Confirmación visual clara y redirección a login.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-40 (Back) + SCRUM-41 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-6 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-6 · HU-02</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-02: Inicio y Cierre de Sesión</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">5 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Autenticación segura por JWT con discriminación de roles (`CLIENT` y `ADMIN`). Mensaje genérico ante credenciales erróneas. Protección de rutas privadas e invalidación de token al salir.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-42 (Back) + SCRUM-43 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-8 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-8 · HU-10</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-10: Gestión de Servicios</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">5 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Exclusivo para administradores. Creación, edición y baja lógica (`isActive: false`). No permite duplicar nombres y conserva intactas las reservas ya asociadas al servicio desactivado.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-44 (Back) + SCRUM-45 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-10 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-10 · HU-03</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-03: Consulta de Servicios Disponibles</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">3 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Catálogo accesible para clientes con nombre, descripción y duración. Los servicios inactivos se filtran automáticamente. Botón directo hacia el flujo de reserva de turno.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-46 (Back) + SCRUM-47 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-24 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-24 · HU-11</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-11: Configuración de Atención</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">5 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Panel administrativo para definir días de apertura, franja horaria (`startTime`, `endTime`) y duración del bloque. Validación estricta que exige hora fin posterior a inicio.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-60 (Back) + SCRUM-61 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-11 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-11 · HU-04</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-04: Días y Horarios Disponibles</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">5 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Algoritmo dinámico que calcula únicamente turnos libres: cruza el horario configurado, descarta reservas activas existentes y rechaza fechas u horarios pasados.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-48 (Back) + SCRUM-49 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-13 & SCRUM-14 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-13 y 14</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-05 / TF-18: Creación & Antiduplicados</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">16 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Reserva atómica con `prisma.$transaction`. Si dos clientes intentan reservar el mismo slot simultáneamente, uno obtiene 201 y el otro recibe 409 Conflict con aviso claro y actualización de slots.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-50/51/52/53</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-19 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-19 · HU-06</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-06: Confirmación de Reservas</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">3 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Pantalla con código de turno, servicio, fecha, hora y estado. Notificación sobre comprobante generado y disponible de inmediato en la sección "Mis Turnos".
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-54 (Back) + SCRUM-55 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-20 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-20 · HU-07</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-07: Consulta de Turnos Propios</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">3 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Sección "Mis Turnos" con aislamiento estricto por cliente. Pestañas para distinguir turnos próximos de turnos pasados o cancelados. Acceso a cancelar turnos vigentes.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-56 (Back) + SCRUM-57 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-21 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-21 · HU-08</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-08: Cancelación de Reservas</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">5 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Modal de confirmación antes de cancelar turno propio vigente. Cambio de estado a `CANCELLED` y liberación inmediata del cupo en el cálculo de disponibilidad.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-58 (Back) + SCRUM-59 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+        <!-- SCRUM-26 -->
+        <div class="task-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 hover:border-indigo-300 transition">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">SCRUM-26 · HU-12</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">TF-12: Panel de Reservas (Admin)</h3>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">5 pts · Cumplida</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Acceso exclusivo para administradores. Tabla con filtros reactivos por fecha, servicio y estado, métricas en tiempo real y modal de inspección detallada por turno.
+          </p>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Subtareas: SCRUM-62 (Back) + SCRUM-63 (Front)</span>
+            <span class="text-emerald-600 font-semibold">✓ Verificado en tests</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: Credenciales Precargadas -->
+    <section id="tab-credentials" class="hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-slate-900">Credenciales Precargadas en Base de Datos</h2>
+        <p class="text-slate-500 text-xs mt-0.5">Usuarios generados automáticamente mediante el script de semilla (`seed.ts`)</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Admin Card -->
+        <div class="bg-white p-6 rounded-3xl border border-indigo-100 shadow-sm space-y-5 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-indigo-600"></span>
+              <h3 class="text-lg font-bold text-slate-900">Cuenta Administrador</h3>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 uppercase">Rol ADMIN</span>
+          </div>
+
+          <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Email:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="adminEmail">admin@turnify.com</span>
+                <button onclick="copyText('admin@turnify.com')" class="text-indigo-600 hover:text-indigo-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Contraseña:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="adminPass">Admin123!</span>
+                <button onclick="copyText('Admin123!')" class="text-indigo-600 hover:text-indigo-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Accesos permitidos:</h4>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li>Panel general de turnos (`/admin/dashboard`)</li>
+              <li>ABM de servicios del negocio (`/admin/services`)</li>
+              <li>Configuración semanal de horarios (`/admin/schedules`)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Client Card -->
+        <div class="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm space-y-5 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+              <h3 class="text-lg font-bold text-slate-900">Cuenta Cliente de Prueba</h3>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 uppercase">Rol CLIENT</span>
+          </div>
+
+          <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Email:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="clientEmail">cliente@turnify.com</span>
+                <button onclick="copyText('cliente@turnify.com')" class="text-emerald-600 hover:text-emerald-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Contraseña:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="clientPass">Cliente123!</span>
+                <button onclick="copyText('Cliente123!')" class="text-emerald-600 hover:text-emerald-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Accesos permitidos:</h4>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li>Consulta de catálogo de servicios (`/services`)</li>
+              <li>Reserva interactiva de turnos (`/book`)</li>
+              <li>Gestión y cancelación en "Mis Turnos" (`/my-appointments`)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Guía de Ejecución Local -->
+    <section id="tab-execution" class="hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-slate-900">Guía de Puesta en Marcha Local</h2>
+        <p class="text-slate-500 text-xs mt-0.5">Comandos para instalar, poblar la base de datos y correr el sistema</p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Step 1 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600">Paso 1 · Instalación y Base de Datos</span>
+            <button onclick="copyText('npm install\nnpm run setup')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Instala los paquetes en monorepo, genera las migraciones de Prisma y corre la semilla inicial:</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm install
+npm run setup</pre>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600">Paso 2 · Iniciar Servidores en Desarrollo</span>
+            <button onclick="copyText('npm run dev')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Levanta simultáneamente el Backend (puerto 4000) y el Frontend Vite (puerto 5173):</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm run dev</pre>
+          <div class="flex flex-wrap gap-4 pt-1 text-xs text-slate-600">
+            <span>🌐 <strong>Frontend:</strong> <a href="http://localhost:5173" target="_blank" class="text-indigo-600 underline">http://localhost:5173</a></span>
+            <span>⚡ <strong>Backend API:</strong> <a href="http://localhost:4000/api/health" target="_blank" class="text-indigo-600 underline">http://localhost:4000/api/health</a></span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600">Paso 3 · Ejecución de Pruebas Automatizadas</span>
+            <button onclick="copyText('npm test')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Corre la suite completa de 30 pruebas unitarias e integración en Jest con Supertest:</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm test</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Arquitectura y Modelo 3FN -->
+    <section id="tab-architecture" class="hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-slate-900">Arquitectura Técnica y Modelo de Datos</h2>
+        <p class="text-slate-500 text-xs mt-0.5">Cumplimiento estricto de Tercera Forma Normal (3FN) y prevención de duplicados</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="font-mono text-xs font-bold bg-slate-100 px-2 py-0.5 rounded text-indigo-700">User</span>
+            <span class="text-xs text-slate-400">Entidad de Cuentas</span>
+          </div>
+          <ul class="text-xs text-slate-600 font-mono space-y-1 list-disc list-inside">
+            <li>id (PK, string cuid)</li>
+            <li>name (string)</li>
+            <li>email (unique, string)</li>
+            <li>password (hash bcrypt)</li>
+            <li>role (CLIENT | ADMIN)</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="font-mono text-xs font-bold bg-slate-100 px-2 py-0.5 rounded text-indigo-700">Service</span>
+            <span class="text-xs text-slate-400">Catálogo de Servicios</span>
+          </div>
+          <ul class="text-xs text-slate-600 font-mono space-y-1 list-disc list-inside">
+            <li>id (PK, string cuid)</li>
+            <li>name (unique, string)</li>
+            <li>description (string)</li>
+            <li>durationMinutes (int)</li>
+            <li>isActive (boolean, default true)</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="font-mono text-xs font-bold bg-slate-100 px-2 py-0.5 rounded text-indigo-700">BusinessSchedule</span>
+            <span class="text-xs text-slate-400">Horarios de Atención</span>
+          </div>
+          <ul class="text-xs text-slate-600 font-mono space-y-1 list-disc list-inside">
+            <li>id (PK, string cuid)</li>
+            <li>dayOfWeek (int: 0=Dom ... 6=Sáb)</li>
+            <li>startTime (string HH:mm)</li>
+            <li>endTime (string HH:mm)</li>
+            <li>slotDurationMinutes (int)</li>
+            <li>isActive (boolean)</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="font-mono text-xs font-bold bg-slate-100 px-2 py-0.5 rounded text-indigo-700">Appointment</span>
+            <span class="text-xs text-slate-400">Turnos y Concurrencia</span>
+          </div>
+          <ul class="text-xs text-slate-600 font-mono space-y-1 list-disc list-inside">
+            <li>id (PK, string cuid)</li>
+            <li>userId (FK -> User)</li>
+            <li>serviceId (FK -> Service)</li>
+            <li>date (string YYYY-MM-DD)</li>
+            <li>time (string HH:mm)</li>
+            <li>status (CONFIRMED | CANCELLED | ...)</li>
+            <li>cancellationReason (string optional)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Concurrency Callout -->
+      <div class="p-5 bg-indigo-50 border border-indigo-200 rounded-3xl space-y-2">
+        <h3 class="text-sm font-bold text-indigo-900">🛡️ Garantía de Unicidad y Prevención de Doble Reserva (SCRUM-14)</h3>
+        <p class="text-xs text-indigo-800 leading-relaxed">
+          Las reservas se procesan dentro de una transacción atómica serializada (`prisma.$transaction`). Si dos clientes solicitan exactamente el mismo turno en el mismo milisegundo, la base de datos y el servidor conceden el turno únicamente a uno de ellos (201) y responden al segundo con <strong>409 Conflict</strong>, alertando en pantalla y recargando los slots disponibles para que pueda elegir otro.
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+      <div>
+        <span>Turnify SW · Sprint 1 Finalizado · 29 de Octubre de 2026</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="https://github.com/Ramii15quiroga/Turnify.git" target="_blank" class="hover:text-indigo-600 font-semibold underline">
+          GitHub: Ramii15quiroga/Turnify
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg transition-opacity duration-200 opacity-0 pointer-events-none">
+    Copiado al portapapeles
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      const tabs = ['tasks', 'credentials', 'execution', 'architecture'];
+      tabs.forEach(t => {
+        document.getElementById('tab-' + t).classList.add('hidden');
+        document.getElementById('tab-btn-' + t).classList.remove('active');
+      });
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      document.getElementById('tab-btn-' + tabId).classList.add('active');
+    }
+
+    function filterTasks() {
+      const query = document.getElementById('taskSearch').value.toLowerCase();
+      const cards = document.querySelectorAll('.task-card');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.innerText = 'Copiado: ' + text.replace('\n', ' ');
+        toast.classList.remove('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'pointer-events-none');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
