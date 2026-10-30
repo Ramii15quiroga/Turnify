@@ -9,6 +9,7 @@ import { Register } from './pages/Register';
 import { ServicesCatalog } from './pages/ServicesCatalog';
 import { BookingWizard } from './pages/BookingWizard';
 import { BookingConfirmation } from './pages/BookingConfirmation';
+import { MyAppointments } from './pages/MyAppointments';
 
 export default function App() {
   return (
@@ -37,6 +38,14 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <BookingConfirmation />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/my-appointments"
+                element={
+                  <ProtectedRoute>
+                    <MyAppointments />
                   </ProtectedRoute>
                 }
               />
