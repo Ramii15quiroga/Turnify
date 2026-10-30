@@ -3,13 +3,23 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { AdminRoute } from './components/AdminRoute';
+
+// Public pages
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { ServicesCatalog } from './pages/ServicesCatalog';
+
+// Client protected pages
 import { BookingWizard } from './pages/BookingWizard';
 import { BookingConfirmation } from './pages/BookingConfirmation';
 import { MyAppointments } from './pages/MyAppointments';
+
+// Admin protected pages
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { AdminServices } from './pages/admin/AdminServices';
+import { AdminSchedules } from './pages/admin/AdminSchedules';
 
 export default function App() {
   return (
@@ -19,6 +29,7 @@ export default function App() {
           <Navbar />
           <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -47,6 +58,32 @@ export default function App() {
                   <ProtectedRoute>
                     <MyAppointments />
                   </ProtectedRoute>
+                }
+              />
+
+              {/* Protected Admin Routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/services"
+                element={
+                  <AdminRoute>
+                    <AdminServices />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/schedules"
+                element={
+                  <AdminRoute>
+                    <AdminSchedules />
+                  </AdminRoute>
                 }
               />
 
