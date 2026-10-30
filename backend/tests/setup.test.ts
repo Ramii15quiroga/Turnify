@@ -52,3 +52,4 @@ describe('Task 1: Setup & Database Model in 3NF (SCRUM-9)', () => {
     ).rejects.toThrow();
   });
 });
+

@@ -25,3 +25,4 @@ export const availabilityQuerySchema = z.object({
 export type ScheduleItemInput = z.infer<typeof scheduleItemSchema>;
 export type UpdateSchedulesInput = z.infer<typeof updateSchedulesSchema>;
 export type AvailabilityQueryInput = z.infer<typeof availabilityQuerySchema>;
+

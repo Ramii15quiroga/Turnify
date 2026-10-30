@@ -17,3 +17,4 @@ appointmentClientRouter.patch('/:id/cancel', validateBody(cancelAppointmentSchem
 appointmentAdminRouter.use(authenticate, authorizeRole(['ADMIN']));
 appointmentAdminRouter.get('/', AppointmentController.getAdminList);
 appointmentAdminRouter.get('/:id', AppointmentController.getAdminById);
+

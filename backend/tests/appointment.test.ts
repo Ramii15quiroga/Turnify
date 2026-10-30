@@ -163,3 +163,4 @@ describe('Task 5: Appointments & Concurrency Module (SCRUM-13, 14, 19, 20, 21, 2
     expect(res.body.length).toBeGreaterThan(0);
   });
 });
+

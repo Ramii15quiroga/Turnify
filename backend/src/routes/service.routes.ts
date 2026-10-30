@@ -17,3 +17,4 @@ serviceAdminRouter.get('/', ServiceController.getAll);
 serviceAdminRouter.post('/', validateBody(createServiceSchema), ServiceController.create);
 serviceAdminRouter.put('/:id', validateBody(updateServiceSchema), ServiceController.update);
 serviceAdminRouter.patch('/:id/deactivate', ServiceController.deactivate);
+

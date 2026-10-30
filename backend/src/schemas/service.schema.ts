@@ -15,3 +15,4 @@ export const updateServiceSchema = z.object({
 
 export type CreateServiceInput = z.infer<typeof createServiceSchema>;
 export type UpdateServiceInput = z.infer<typeof updateServiceSchema>;
+

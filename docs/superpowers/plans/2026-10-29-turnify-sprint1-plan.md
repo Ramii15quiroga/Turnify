@@ -308,3 +308,4 @@
 - [ ] **Step 4: Execute database seed and verify login with `admin@turnify.com` and `cliente@turnify.com`**
 - [ ] **Step 5: Verify all 13 Jira acceptance criteria end-to-end**
 - [ ] **Step 6: Commit and push complete Sprint 1 to remote repository `https://github.com/Ramii15quiroga/Turnify.git`**
+

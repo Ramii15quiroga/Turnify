@@ -14,3 +14,4 @@ availabilityRouter.get('/', ScheduleController.getAvailability);
 scheduleAdminRouter.use(authenticate, authorizeRole(['ADMIN']));
 scheduleAdminRouter.get('/', ScheduleController.getWeekly);
 scheduleAdminRouter.put('/', validateBody(updateSchedulesSchema), ScheduleController.updateWeekly);
+

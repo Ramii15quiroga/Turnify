@@ -96,3 +96,4 @@ describe('Task 2: Backend Authentication Module (SCRUM-5, SCRUM-6)', () => {
     expect(meRes.body.user.email).toBe(testUser.email);
   });
 });
+

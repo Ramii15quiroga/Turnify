@@ -25,3 +25,4 @@ npm run dev
 ```
 
 Documentación de arquitectura y diseño: [docs/superpowers/specs/2026-10-29-turnify-sprint1-design.md](docs/superpowers/specs/2026-10-29-turnify-sprint1-design.md).
+

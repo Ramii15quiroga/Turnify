@@ -242,3 +242,4 @@ model Appointment {
 - **Pruebas Unitarias e Integración Backend:** Jest + Supertest (Auth, Services, Availability, Appointment concurrency & cancellation).
 - **Semilla de datos iniciales:** `npm run seed` en backend inicializa administrador, cliente de prueba, servicios de muestra y horarios semanales.
 - **Ejecución local en un comando:** `npm run dev` desde la raíz para levantar Backend (puerto 4000) y Frontend (puerto 5173).
+

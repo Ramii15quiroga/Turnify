@@ -54,3 +54,4 @@ export function authorizeRole(allowedRoles: string[]) {
     next();
   };
 }
+

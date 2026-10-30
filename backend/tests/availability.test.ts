@@ -96,3 +96,4 @@ describe('Task 4: Schedules & Availability Module (SCRUM-24, SCRUM-11)', () => {
     await prisma.appointment.delete({ where: { id: appt.id } });
   });
 });
+
