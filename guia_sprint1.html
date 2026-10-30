@@ -54,22 +54,218 @@
 
     <!-- Navigation Tabs -->
     <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
-      <button onclick="switchTab('tasks')" id="tab-btn-tasks" class="tab-btn active px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
-        📋 Tareas y Criterios (Jira)
+      <button onclick="switchTab('execution')" id="tab-btn-execution" class="tab-btn active px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
+        🚀 Paso a Paso: Desde Git hasta Ejecutar
       </button>
       <button onclick="switchTab('credentials')" id="tab-btn-credentials" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
         🔑 Credenciales Precargadas
       </button>
-      <button onclick="switchTab('execution')" id="tab-btn-execution" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
-        🚀 Guía de Ejecución Local
+      <button onclick="switchTab('tasks')" id="tab-btn-tasks" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
+        📋 Tareas y Criterios (Jira)
       </button>
       <button onclick="switchTab('architecture')" id="tab-btn-architecture" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 transition">
         🏛️ Arquitectura y Modelo 3FN
       </button>
     </div>
 
-    <!-- TAB 1: Tareas y Criterios de Aceptación -->
-    <section id="tab-tasks" class="space-y-6">
+    <!-- TAB: Guía de Ejecución Local Paso a Paso -->
+    <section id="tab-execution" class="space-y-6">
+      <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-indigo-900">Guía de Inicio Rápido para el Equipo</h2>
+          <p class="text-indigo-700 text-xs mt-0.5">Sigue estos sencillos pasos para clonar el repositorio y tener Turnify funcionando en 2 minutos.</p>
+        </div>
+        <div class="flex items-center space-x-2 text-xs font-semibold bg-white text-indigo-800 px-3 py-1.5 rounded-xl border border-indigo-200">
+          <span>Requisitos: Node.js (≥18) y Git</span>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Paso 1 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600 flex items-center space-x-1.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
+              <span>Clonar el repositorio de GitHub y entrar a la carpeta</span>
+            </span>
+            <button onclick="copyText('git clone https://github.com/Ramii15quiroga/Turnify.git\ncd Turnify')" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Abre tu terminal (PowerShell, CMD, Git Bash o Terminal de VS Code) y ejecuta:</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">git clone https://github.com/Ramii15quiroga/Turnify.git
+cd Turnify</pre>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600 flex items-center space-x-1.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">2</span>
+              <span>Instalar las dependencias del proyecto (Monorepo)</span>
+            </span>
+            <button onclick="copyText('npm install')" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Instala los paquetes necesarios tanto para el Backend como para el Frontend en un solo comando:</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm install</pre>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600 flex items-center space-x-1.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">3</span>
+              <span>Inicializar la Base de Datos y Datos de Prueba</span>
+            </span>
+            <button onclick="copyText('npm run setup')" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Genera la base de datos SQLite local (`turnify.db`) y carga automáticamente los usuarios administrador, cliente de prueba, servicios iniciales y horarios semanales:</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm run setup</pre>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600 flex items-center space-x-1.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">4</span>
+              <span>Iniciar el Sistema en Modo Desarrollo</span>
+            </span>
+            <button onclick="copyText('npm run dev')" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Levanta simultáneamente el servidor Backend (puerto 4000) y el Frontend en Vite (puerto 5173):</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm run dev</pre>
+          <div class="flex flex-wrap gap-4 pt-1 text-xs text-slate-600">
+            <span>🌐 <strong>Aplicación Web:</strong> <a href="http://localhost:5173" target="_blank" class="text-indigo-600 underline font-semibold">http://localhost:5173</a></span>
+            <span>⚡ <strong>Backend API:</strong> <a href="http://localhost:4000/api/health" target="_blank" class="text-indigo-600 underline font-semibold">http://localhost:4000/api/health</a></span>
+          </div>
+        </div>
+
+        <!-- Paso 5 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-indigo-600 flex items-center space-x-1.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">5</span>
+              <span>Abrir en el Navegador e Iniciar Sesión</span>
+            </span>
+          </div>
+          <p class="text-xs text-slate-600">Abre tu navegador en <strong class="text-slate-800">http://localhost:5173</strong> y prueba los dos roles:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+            <div class="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100">
+              <span class="font-bold text-indigo-900">👑 Rol Administrador:</span>
+              <p class="text-slate-600 mt-1">Usuario: <code class="font-bold text-slate-800">admin@turnify.com</code></p>
+              <p class="text-slate-600">Clave: <code class="font-bold text-slate-800">Admin123!</code></p>
+              <p class="text-[11px] text-indigo-600 mt-1 font-medium">Accede al Panel de turnos, ABM de servicios y horarios.</p>
+            </div>
+            <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-100">
+              <span class="font-bold text-emerald-900">👤 Rol Cliente:</span>
+              <p class="text-slate-600 mt-1">Usuario: <code class="font-bold text-slate-800">cliente@turnify.com</code></p>
+              <p class="text-slate-600">Clave: <code class="font-bold text-slate-800">Cliente123!</code></p>
+              <p class="text-[11px] text-emerald-600 mt-1 font-medium">Ver catálogo, reservar turnos y cancelar en Mis Turnos.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paso 6 (Opcional) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase text-slate-600 flex items-center space-x-1.5">
+              <span class="w-5 h-5 rounded-full bg-slate-500 text-white flex items-center justify-center text-[10px]">6</span>
+              <span>(Opcional) Correr la Suite de Pruebas Automatizadas</span>
+            </span>
+            <button onclick="copyText('npm test')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
+          </div>
+          <p class="text-xs text-slate-600">Verifica que las 30 pruebas unitarias y de integración del backend pasen al 100%:</p>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm test</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: Credenciales Precargadas -->
+    <section id="tab-credentials" class="hidden space-y-6">
+      <div>
+        <h2 class="text-xl font-bold text-slate-900">Credenciales Precargadas en Base de Datos</h2>
+        <p class="text-slate-500 text-xs mt-0.5">Usuarios generados automáticamente mediante el script de semilla (`seed.ts`)</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Admin Card -->
+        <div class="bg-white p-6 rounded-3xl border border-indigo-100 shadow-sm space-y-5 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-indigo-600"></span>
+              <h3 class="text-lg font-bold text-slate-900">Cuenta Administrador</h3>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 uppercase">Rol ADMIN</span>
+          </div>
+
+          <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Email:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="adminEmail">admin@turnify.com</span>
+                <button onclick="copyText('admin@turnify.com')" class="text-indigo-600 hover:text-indigo-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Contraseña:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="adminPass">Admin123!</span>
+                <button onclick="copyText('Admin123!')" class="text-indigo-600 hover:text-indigo-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Accesos permitidos:</h4>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li>Panel general de turnos (`/admin/dashboard`)</li>
+              <li>ABM de servicios del negocio (`/admin/services`)</li>
+              <li>Configuración semanal de horarios (`/admin/schedules`)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Client Card -->
+        <div class="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm space-y-5 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+              <h3 class="text-lg font-bold text-slate-900">Cuenta Cliente de Prueba</h3>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 uppercase">Rol CLIENT</span>
+          </div>
+
+          <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Email:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="clientEmail">cliente@turnify.com</span>
+                <button onclick="copyText('cliente@turnify.com')" class="text-emerald-600 hover:text-emerald-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500 font-medium">Contraseña:</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono font-bold text-slate-800" id="clientPass">Cliente123!</span>
+                <button onclick="copyText('Cliente123!')" class="text-emerald-600 hover:text-emerald-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Accesos permitidos:</h4>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li>Consulta de catálogo de servicios (`/services`)</li>
+              <li>Reserva interactiva de turnos (`/book`)</li>
+              <li>Gestión y cancelación en "Mis Turnos" (`/my-appointments`)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: Tareas y Criterios de Aceptación -->
+    <section id="tab-tasks" class="hidden space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-xl font-bold text-slate-900">Cobertura Integral de Sprint 1</h2>
@@ -310,138 +506,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: Credenciales Precargadas -->
-    <section id="tab-credentials" class="hidden space-y-6">
-      <div>
-        <h2 class="text-xl font-bold text-slate-900">Credenciales Precargadas en Base de Datos</h2>
-        <p class="text-slate-500 text-xs mt-0.5">Usuarios generados automáticamente mediante el script de semilla (`seed.ts`)</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Admin Card -->
-        <div class="bg-white p-6 rounded-3xl border border-indigo-100 shadow-sm space-y-5 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-indigo-600"></span>
-              <h3 class="text-lg font-bold text-slate-900">Cuenta Administrador</h3>
-            </div>
-            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 uppercase">Rol ADMIN</span>
-          </div>
-
-          <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-xs">
-            <div class="flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Email:</span>
-              <div class="flex items-center space-x-2">
-                <span class="font-mono font-bold text-slate-800" id="adminEmail">admin@turnify.com</span>
-                <button onclick="copyText('admin@turnify.com')" class="text-indigo-600 hover:text-indigo-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Contraseña:</span>
-              <div class="flex items-center space-x-2">
-                <span class="font-mono font-bold text-slate-800" id="adminPass">Admin123!</span>
-                <button onclick="copyText('Admin123!')" class="text-indigo-600 hover:text-indigo-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Accesos permitidos:</h4>
-            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-              <li>Panel general de turnos (`/admin/dashboard`)</li>
-              <li>ABM de servicios del negocio (`/admin/services`)</li>
-              <li>Configuración semanal de horarios (`/admin/schedules`)</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Client Card -->
-        <div class="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm space-y-5 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
-              <h3 class="text-lg font-bold text-slate-900">Cuenta Cliente de Prueba</h3>
-            </div>
-            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 uppercase">Rol CLIENT</span>
-          </div>
-
-          <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-xs">
-            <div class="flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Email:</span>
-              <div class="flex items-center space-x-2">
-                <span class="font-mono font-bold text-slate-800" id="clientEmail">cliente@turnify.com</span>
-                <button onclick="copyText('cliente@turnify.com')" class="text-emerald-600 hover:text-emerald-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-              <span class="text-slate-500 font-medium">Contraseña:</span>
-              <div class="flex items-center space-x-2">
-                <span class="font-mono font-bold text-slate-800" id="clientPass">Cliente123!</span>
-                <button onclick="copyText('Cliente123!')" class="text-emerald-600 hover:text-emerald-800 text-[11px] font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">Copiar</button>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Accesos permitidos:</h4>
-            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-              <li>Consulta de catálogo de servicios (`/services`)</li>
-              <li>Reserva interactiva de turnos (`/book`)</li>
-              <li>Gestión y cancelación en "Mis Turnos" (`/my-appointments`)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 3: Guía de Ejecución Local -->
-    <section id="tab-execution" class="hidden space-y-6">
-      <div>
-        <h2 class="text-xl font-bold text-slate-900">Guía de Puesta en Marcha Local</h2>
-        <p class="text-slate-500 text-xs mt-0.5">Comandos para instalar, poblar la base de datos y correr el sistema</p>
-      </div>
-
-      <div class="space-y-4">
-        <!-- Step 1 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase text-indigo-600">Paso 1 · Instalación y Base de Datos</span>
-            <button onclick="copyText('npm install\nnpm run setup')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
-          </div>
-          <p class="text-xs text-slate-600">Instala los paquetes en monorepo, genera las migraciones de Prisma y corre la semilla inicial:</p>
-          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm install
-npm run setup</pre>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase text-indigo-600">Paso 2 · Iniciar Servidores en Desarrollo</span>
-            <button onclick="copyText('npm run dev')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
-          </div>
-          <p class="text-xs text-slate-600">Levanta simultáneamente el Backend (puerto 4000) y el Frontend Vite (puerto 5173):</p>
-          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm run dev</pre>
-          <div class="flex flex-wrap gap-4 pt-1 text-xs text-slate-600">
-            <span>🌐 <strong>Frontend:</strong> <a href="http://localhost:5173" target="_blank" class="text-indigo-600 underline">http://localhost:5173</a></span>
-            <span>⚡ <strong>Backend API:</strong> <a href="http://localhost:4000/api/health" target="_blank" class="text-indigo-600 underline">http://localhost:4000/api/health</a></span>
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase text-indigo-600">Paso 3 · Ejecución de Pruebas Automatizadas</span>
-            <button onclick="copyText('npm test')" class="text-xs text-slate-500 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">Copiar comando</button>
-          </div>
-          <p class="text-xs text-slate-600">Corre la suite completa de 30 pruebas unitarias e integración en Jest con Supertest:</p>
-          <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto">npm test</pre>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 4: Arquitectura y Modelo 3FN -->
+    <!-- TAB: Arquitectura y Modelo 3FN -->
     <section id="tab-architecture" class="hidden space-y-6">
       <div>
         <h2 class="text-xl font-bold text-slate-900">Arquitectura Técnica y Modelo de Datos</h2>
@@ -537,7 +602,7 @@ npm run setup</pre>
 
   <script>
     function switchTab(tabId) {
-      const tabs = ['tasks', 'credentials', 'execution', 'architecture'];
+      const tabs = ['execution', 'credentials', 'tasks', 'architecture'];
       tabs.forEach(t => {
         document.getElementById('tab-' + t).classList.add('hidden');
         document.getElementById('tab-btn-' + t).classList.remove('active');
