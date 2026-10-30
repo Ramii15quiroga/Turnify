@@ -1,0 +1,81 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  password     String
+  role         Role          @default(CLIENT)
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("users")
+}
+
+model Service {
+  id              String             @id @default(cuid())
+  name            String             @unique
+  description     String
+  durationMinutes Int
+  isActive        Boolean            @default(true)
+  schedules       BusinessSchedule[]
+  appointments    Appointment[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@map("services")
+}
+
+model BusinessSchedule {
+  id                  String   @id @default(cuid())
+  serviceId           String?
+  service             Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  dayOfWeek           Int      // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+  startTime           String   // Formato "09:00"
+  endTime             String   // Formato "18:00"
+  slotDurationMinutes Int      @default(30)
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("business_schedules")
+}
+
+model Appointment {
+  id                 String            @id @default(cuid())
+  userId             String
+  user               User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  serviceId          String
+  service            Service           @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  date               String            // Formato "YYYY-MM-DD"
+  time               String            // Formato "HH:mm"
+  status             AppointmentStatus @default(CONFIRMED)
+  cancellationReason String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@index([serviceId, date, time])
+  @@map("appointments")
+}
+
