@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import { servicePublicRouter, serviceAdminRouter } from './routes/service.routes';
 import { availabilityRouter, scheduleAdminRouter } from './routes/schedule.routes';
+import { appointmentClientRouter, appointmentAdminRouter } from './routes/appointment.routes';
 
 dotenv.config();
 
@@ -18,6 +19,8 @@ app.use('/api/services', servicePublicRouter);
 app.use('/api/admin/services', serviceAdminRouter);
 app.use('/api/availability', availabilityRouter);
 app.use('/api/admin/schedules', scheduleAdminRouter);
+app.use('/api/appointments', appointmentClientRouter);
+app.use('/api/admin/appointments', appointmentAdminRouter);
 
 // Base health route
 app.get('/api/health', (req: Request, res: Response) => {
