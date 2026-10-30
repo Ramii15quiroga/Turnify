@@ -24,3 +24,4 @@ export const AdminRoute: React.FC<{ children: React.ReactElement }> = ({ childre
 
   return children;
 };
+

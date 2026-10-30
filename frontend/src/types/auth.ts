@@ -12,3 +12,4 @@ export interface AuthResponse {
   user: User;
   message?: string;
 }
+

@@ -2,9 +2,13 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { ServicesCatalog } from './pages/ServicesCatalog';
+import { BookingWizard } from './pages/BookingWizard';
+import { BookingConfirmation } from './pages/BookingConfirmation';
 
 export default function App() {
   return (
@@ -17,7 +21,26 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              {/* Other routes will be mounted in subsequent tasks */}
+              <Route path="/services" element={<ServicesCatalog />} />
+
+              {/* Protected Client Routes */}
+              <Route
+                path="/book"
+                element={
+                  <ProtectedRoute>
+                    <BookingWizard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/appointments/confirmation/:id"
+                element={
+                  <ProtectedRoute>
+                    <BookingConfirmation />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
