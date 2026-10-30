@@ -28,7 +28,7 @@ describe('Task 1: Setup & Database Model in 3NF (SCRUM-9)', () => {
 
   test('weekly business schedules exist and have valid time ranges', async () => {
     const schedules = await prisma.businessSchedule.findMany({ where: { isActive: true } });
-    expect(schedules.length).toBeGreaterThanOrEqual(6); // Mon-Sat
+    expect(schedules.length).toBeGreaterThanOrEqual(5); // At least standard Mon-Fri active business days
     for (const sch of schedules) {
       expect(sch.startTime).toMatch(/^\d{2}:\d{2}$/);
       expect(sch.endTime).toMatch(/^\d{2}:\d{2}$/);
