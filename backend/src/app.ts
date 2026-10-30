@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
+import { servicePublicRouter, serviceAdminRouter } from './routes/service.routes';
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/services', servicePublicRouter);
+app.use('/api/admin/services', serviceAdminRouter);
 
 // Base health route
 app.get('/api/health', (req: Request, res: Response) => {
