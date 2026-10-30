@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import { servicePublicRouter, serviceAdminRouter } from './routes/service.routes';
+import { availabilityRouter, scheduleAdminRouter } from './routes/schedule.routes';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/services', servicePublicRouter);
 app.use('/api/admin/services', serviceAdminRouter);
+app.use('/api/availability', availabilityRouter);
+app.use('/api/admin/schedules', scheduleAdminRouter);
 
 // Base health route
 app.get('/api/health', (req: Request, res: Response) => {
