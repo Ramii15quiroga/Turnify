@@ -21,6 +21,9 @@ export const MyAppointments: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'upcoming' | 'history'>('upcoming');
   const [cancellingAppt, setCancellingAppt] = useState<Appointment | null>(null);
+  const [rescheduling, setRescheduling] = useState<Appointment | null>(null);
+  const [newDate, setNewDate] = useState('');
+  const [newTime, setNewTime] = useState('');
 
   const loadAppointments = () => {
     setIsLoading(true);
@@ -46,6 +49,12 @@ export const MyAppointments: React.FC = () => {
       setError(err.message || 'No se pudo cancelar el turno.');
       setTimeout(() => setError(null), 5000);
     }
+  };
+
+  const handleReschedule = async () => {
+    if (!rescheduling || !newDate || !newTime) return;
+    try { await appointmentApi.reschedule(rescheduling.id, newDate, newTime); setSuccessMessage('Turno reprogramado correctamente.'); setRescheduling(null); loadAppointments(); }
+    catch (err: any) { setError(err.message || 'No se pudo reprogramar el turno.'); }
   };
 
   const todayStr = getTodayString();
@@ -210,6 +219,7 @@ export const MyAppointments: React.FC = () => {
               {/* Actions */}
               {appt.status !== 'CANCELLED' && appt.date >= todayStr && (
                 <div className="mt-5 pt-3 border-t border-slate-100 flex justify-end">
+                  {(appt.status === 'CONFIRMED' || appt.status === 'PENDING') && <button onClick={() => { setRescheduling(appt); setNewDate(appt.date); setNewTime(appt.time); }} className="mr-3 text-xs font-bold text-indigo-600">Reprogramar</button>}
                   <button
                     onClick={() => setCancellingAppt(appt)}
                     className="inline-flex items-center space-x-1 text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-1.5 rounded-lg transition"
@@ -231,6 +241,7 @@ export const MyAppointments: React.FC = () => {
         onClose={() => setCancellingAppt(null)}
         onConfirm={handleConfirmCancel}
       />
+      {rescheduling && <div className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4"><div className="bg-white rounded-2xl p-6 w-full max-w-md space-y-4"><h2 className="text-xl font-bold">Reprogramar turno</h2><label className="block text-sm">Nueva fecha<input className="mt-1 w-full border rounded-lg p-2" type="date" min={todayStr} value={newDate} onChange={e=>setNewDate(e.target.value)} /></label><label className="block text-sm">Nuevo horario<input className="mt-1 w-full border rounded-lg p-2" type="time" value={newTime} onChange={e=>setNewTime(e.target.value)} /></label><div className="flex justify-end gap-2"><button className="px-4 py-2 border rounded-lg" onClick={()=>setRescheduling(null)}>Volver</button><button className="px-4 py-2 bg-indigo-600 text-white rounded-lg" onClick={handleReschedule}>Confirmar</button></div></div></div>}
     </div>
   );
 };

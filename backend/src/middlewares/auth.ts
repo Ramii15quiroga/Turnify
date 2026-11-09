@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken, JwtPayload } from '../utils/jwt';
+import { verifyToken } from '../utils/jwt';
 import { prisma } from '../config/prisma';
 
 export interface AuthRequest extends Request {
@@ -24,10 +24,10 @@ export async function authenticate(req: AuthRequest, res: Response, next: NextFu
     const payload = verifyToken(token);
     const user = await prisma.user.findUnique({
       where: { id: payload.userId },
-      select: { id: true, name: true, email: true, role: true },
+      select: { id: true, name: true, email: true, role: true, isActive: true },
     });
 
-    if (!user) {
+    if (!user || !user.isActive) {
       res.status(401).json({ error: 'Usuario no encontrado o sesión inválida' });
       return;
     }

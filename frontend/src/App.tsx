@@ -20,6 +20,9 @@ import { MyAppointments } from './pages/MyAppointments';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminServices } from './pages/admin/AdminServices';
 import { AdminSchedules } from './pages/admin/AdminSchedules';
+import { PasswordReset } from './pages/PasswordReset';
+import { AdminUsers } from './pages/admin/AdminUsers';
+import { AdminStatistics } from './pages/admin/AdminStatistics';
 
 export default function App() {
   return (
@@ -33,6 +36,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/reset-password" element={<PasswordReset />} />
               <Route path="/services" element={<ServicesCatalog />} />
 
               {/* Protected Client Routes */}
@@ -86,6 +90,8 @@ export default function App() {
                   </AdminRoute>
                 }
               />
+              <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+              <Route path="/admin/statistics" element={<AdminRoute><AdminStatistics /></AdminRoute>} />
 
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

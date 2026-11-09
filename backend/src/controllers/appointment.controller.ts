@@ -1,8 +1,22 @@
 import { Response, NextFunction } from 'express';
 import { AppointmentService } from '../services/appointment.service';
 import { AuthRequest } from '../middlewares/auth';
+import { AppointmentStatus } from '@prisma/client';
 
 export class AppointmentController {
+  static async reschedule(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
+    try { res.status(200).json(await AppointmentService.reschedule(req.params.id, req.user!.id, req.body.date, req.body.time)); } catch (err) { next(err); }
+  }
+  static async updateStatus(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
+    try { res.status(200).json(await AppointmentService.updateStatus(req.params.id, req.body.status as AppointmentStatus)); } catch (err) { next(err); }
+  }
+  static async statistics(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const period = String(req.query.period || 'day') as 'day'|'week'|'month';
+      if (!['day','week','month'].includes(period)) { res.status(400).json({error:'Periodo inválido'}); return; }
+      res.status(200).json(await AppointmentService.statistics(period, String(req.query.date || new Date().toISOString().slice(0,10))));
+    } catch (err) { next(err); }
+  }
   static async create(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const created = await AppointmentService.createAppointment(req.user!.id, req.body);

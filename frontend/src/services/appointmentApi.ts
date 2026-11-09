@@ -19,6 +19,9 @@ export const appointmentApi = {
       method: 'PATCH',
       body: JSON.stringify({ reason }),
     }),
+  reschedule: (id: string, date: string, time: string) => apiRequest<Appointment>(`/appointments/${id}/reschedule`, { method: 'PATCH', body: JSON.stringify({ date, time }) }),
+  updateStatus: (id: string, status: Appointment['status']) => apiRequest<Appointment>(`/admin/appointments/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+  getStatistics: (period: 'day'|'week'|'month', date: string) => apiRequest<{period:string;from:string;to:string;total:number;byStatus:Record<string,number>;byService:Record<string,number>}>(`/admin/appointments/statistics?period=${period}&date=${date}`),
 
   getAdminAppointments: (filters: { date?: string; serviceId?: string; status?: string } = {}) => {
     const params = new URLSearchParams();

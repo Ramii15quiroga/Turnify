@@ -96,6 +96,8 @@ export const Login: React.FC = () => {
         </button>
       </form>
 
+      <div className="mt-4 text-center text-sm"><Link to="/reset-password" className="text-indigo-600 hover:underline">¿Olvidaste tu contraseña?</Link></div>
+
       <div className="mt-8 pt-6 border-t border-slate-200 text-center text-sm text-slate-600">
         ¿Aún no tienes una cuenta?{' '}
         <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-700">

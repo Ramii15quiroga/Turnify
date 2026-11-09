@@ -26,11 +26,26 @@ model User {
   email        String        @unique
   password     String
   role         Role          @default(CLIENT)
+  isActive     Boolean       @default(true)
+  passwordResets PasswordReset[]
   appointments Appointment[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
   @@map("users")
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+  @@map("password_resets")
 }
 
 model Service {

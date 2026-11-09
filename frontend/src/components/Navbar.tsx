@@ -66,6 +66,8 @@ export const Navbar: React.FC = () => {
                   <Clock className="h-4 w-4" />
                   <span>Horarios</span>
                 </Link>
+                <Link to="/admin/users" className="text-sm font-semibold text-slate-700 hover:text-indigo-600">Usuarios</Link>
+                <Link to="/admin/statistics" className="text-sm font-semibold text-slate-700 hover:text-indigo-600">Estadísticas</Link>
               </div>
             )}
           </div>
@@ -164,6 +166,8 @@ export const Navbar: React.FC = () => {
               >
                 Horarios de Atención
               </Link>
+              <Link to="/admin/users" onClick={() => setMobileMenuOpen(false)} className="block text-base font-medium text-slate-700">Gestión de Usuarios</Link>
+              <Link to="/admin/statistics" onClick={() => setMobileMenuOpen(false)} className="block text-base font-medium text-slate-700">Estadísticas</Link>
             </div>
           )}
           <div className="pt-3 border-t border-slate-200">

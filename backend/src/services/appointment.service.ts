@@ -18,6 +18,47 @@ function getCurrentTimeString(): string {
 }
 
 export class AppointmentService {
+  static async updateStatus(id: string, status: AppointmentStatus) {
+    const appointment = await prisma.appointment.findUnique({ where: { id } });
+    if (!appointment) { const error: any = new Error('Reserva no encontrada'); error.status = 404; throw error; }
+    const allowed: Record<AppointmentStatus, AppointmentStatus[]> = {
+      PENDING: [AppointmentStatus.CONFIRMED, AppointmentStatus.CANCELLED],
+      CONFIRMED: [AppointmentStatus.COMPLETED, AppointmentStatus.CANCELLED, AppointmentStatus.NO_SHOW],
+      COMPLETED: [], CANCELLED: [], NO_SHOW: [],
+    };
+    if (!allowed[appointment.status].includes(status)) { const error: any = new Error(`Transición inválida: ${appointment.status} → ${status}`); error.status = 400; throw error; }
+    return prisma.appointment.update({ where: { id }, data: { status }, include: { service: true, user: { select: { id: true, name: true, email: true } } } });
+  }
+
+  static async reschedule(id: string, userId: string, date: string, time: string) {
+    const original = await prisma.appointment.findUnique({ where: { id } });
+    if (!original) { const error: any = new Error('Reserva no encontrada'); error.status = 404; throw error; }
+    if (original.userId !== userId) { const error: any = new Error('No tiene permisos para reprogramar esta reserva'); error.status = 403; throw error; }
+    if (original.status !== AppointmentStatus.PENDING && original.status !== AppointmentStatus.CONFIRMED) { const error: any = new Error('Solo se pueden reprogramar turnos vigentes'); error.status = 400; throw error; }
+    if (date < getTodayString() || (date === getTodayString() && time <= getCurrentTimeString())) { const error: any = new Error('El nuevo horario debe ser futuro'); error.status = 400; throw error; }
+    return prisma.$transaction(async tx => {
+      const taken = await tx.appointment.findFirst({ where: { serviceId: original.serviceId, date, time, status: { not: AppointmentStatus.CANCELLED }, id: { not: id } } });
+      if (taken) { const error: any = new Error('El horario seleccionado ya está ocupado'); error.status = 409; throw error; }
+      return tx.appointment.update({ where: { id }, data: { date, time }, include: { service: true } });
+    });
+  }
+
+  static async statistics(period: 'day' | 'week' | 'month', date = getTodayString()) {
+    const start = new Date(`${date}T00:00:00`);
+    if (period === 'week') start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+    if (period === 'month') start.setDate(1);
+    const end = new Date(start);
+    if (period === 'day') end.setDate(end.getDate() + 1);
+    if (period === 'week') end.setDate(end.getDate() + 7);
+    if (period === 'month') end.setMonth(end.getMonth() + 1);
+    const from = `${start.getFullYear()}-${String(start.getMonth()+1).padStart(2,'0')}-${String(start.getDate()).padStart(2,'0')}`;
+    const to = `${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}`;
+    const rows = await prisma.appointment.findMany({ where: { date: { gte: from, lt: to } }, include: { service: { select: { id: true, name: true } } } });
+    const byStatus: Record<string, number> = {}, byService: Record<string, number> = {};
+    for (const row of rows) { byStatus[row.status] = (byStatus[row.status] || 0) + 1; byService[row.service.name] = (byService[row.service.name] || 0) + 1; }
+    return { period, from, to, total: rows.length, byStatus, byService };
+  }
+
   static async createAppointment(userId: string, data: CreateAppointmentInput) {
     const { serviceId, date, time } = data;
 

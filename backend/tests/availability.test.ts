@@ -3,6 +3,16 @@ import { app } from '../src/app';
 import { prisma } from '../src/config/prisma';
 import { signToken } from '../src/utils/jwt';
 
+function nextWeekday(weekday: number): string {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  do { date.setDate(date.getDate() + 1); } while (date.getDay() !== weekday);
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 describe('Task 4: Schedules & Availability Module (SCRUM-24, SCRUM-11)', () => {
   let adminToken: string;
   let clientToken: string;
@@ -57,8 +67,7 @@ describe('Task 4: Schedules & Availability Module (SCRUM-24, SCRUM-11)', () => {
   });
 
   test('GET /api/availability - returns available slots for a future working day', async () => {
-    // Pick next Wednesday to ensure it's a future weekday (dayOfWeek: 3)
-    const futureDate = '2026-11-04'; // Wednesday
+    const futureDate = nextWeekday(3); // Next Wednesday, always in the future
     const res = await request(app)
       .get('/api/availability')
       .query({ serviceId, date: futureDate });
@@ -71,7 +80,7 @@ describe('Task 4: Schedules & Availability Module (SCRUM-24, SCRUM-11)', () => {
   });
 
   test('GET /api/availability - excludes slots that already have an active appointment', async () => {
-    const futureDate = '2026-11-04';
+    const futureDate = nextWeekday(3);
     const bookedTime = '10:00';
 
     // Seed an appointment for 10:00

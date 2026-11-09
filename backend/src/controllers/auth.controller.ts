@@ -3,6 +3,12 @@ import { AuthService } from '../services/auth.service';
 import { AuthRequest } from '../middlewares/auth';
 
 export class AuthController {
+  static async requestReset(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try { res.status(200).json(await AuthService.requestPasswordReset(req.body.email)); } catch (err) { next(err); }
+  }
+  static async resetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try { res.status(200).json(await AuthService.resetPassword(req.body.token, req.body.password)); } catch (err) { next(err); }
+  }
   static async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const result = await AuthService.register(req.body);

@@ -244,6 +244,7 @@ export const AdminDashboard: React.FC = () => {
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                      {appt.status !== 'CANCELLED' && appt.status !== 'COMPLETED' && appt.status !== 'NO_SHOW' && <select aria-label="Cambiar estado" className="mr-2 border rounded p-1 text-xs" value={appt.status} onChange={async e=>{try{await appointmentApi.updateStatus(appt.id,e.target.value as Appointment['status']);loadData()}catch(err:any){setError(err.message)}}}><option value="PENDING">Pendiente</option><option value="CONFIRMED">Confirmado</option><option value="COMPLETED">Completado</option><option value="CANCELLED">Cancelado</option><option value="NO_SHOW">Ausente</option></select>}
                       <button
                         onClick={() => setSelectedAppointment(appt)}
                         className="inline-flex items-center space-x-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition"

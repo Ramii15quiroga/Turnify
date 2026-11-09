@@ -3,6 +3,16 @@ import { app } from '../src/app';
 import { prisma } from '../src/config/prisma';
 import { signToken } from '../src/utils/jwt';
 
+function nextWeekday(weekday: number): string {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  do { date.setDate(date.getDate() + 1); } while (date.getDay() !== weekday);
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 describe('Task 5: Appointments & Concurrency Module (SCRUM-13, 14, 19, 20, 21, 26)', () => {
   let adminToken: string;
   let client1Token: string;
@@ -11,7 +21,7 @@ describe('Task 5: Appointments & Concurrency Module (SCRUM-13, 14, 19, 20, 21, 2
   let client2Id: string;
   let testServiceId: string;
 
-  const bookingDate = '2026-11-05'; // Thursday
+  const bookingDate = nextWeekday(4); // Next Thursday, always in the future
   const bookingTime = '11:00';
 
   beforeAll(async () => {
@@ -161,6 +171,21 @@ describe('Task 5: Appointments & Concurrency Module (SCRUM-13, 14, 19, 20, 21, 2
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
     expect(res.body.length).toBeGreaterThan(0);
+  });
+
+  test('GET /api/admin/appointments/statistics - serves statistics instead of treating the path as an appointment ID', async () => {
+    const res = await request(app)
+      .get('/api/admin/appointments/statistics')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .query({ period: 'week', date: bookingDate });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({ period: 'week' });
+    expect(res.body.from).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(res.body.to).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(typeof res.body.total).toBe('number');
+    expect(res.body).toHaveProperty('byStatus');
+    expect(res.body).toHaveProperty('byService');
   });
 });
 
