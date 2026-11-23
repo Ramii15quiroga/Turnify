@@ -1,6 +1,7 @@
 import { prisma } from '../config/prisma';
 import { CreateAppointmentInput, CancelAppointmentInput } from '../schemas/appointment.schema';
 import { AppointmentStatus } from '@prisma/client';
+import { aggregateStatistics, getStatisticsRange, StatisticsPeriod } from './statistics-utils';
 
 function getTodayString(): string {
   const now = new Date();
@@ -43,20 +44,14 @@ export class AppointmentService {
     });
   }
 
-  static async statistics(period: 'day' | 'week' | 'month', date = getTodayString()) {
-    const start = new Date(`${date}T00:00:00`);
-    if (period === 'week') start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
-    if (period === 'month') start.setDate(1);
-    const end = new Date(start);
-    if (period === 'day') end.setDate(end.getDate() + 1);
-    if (period === 'week') end.setDate(end.getDate() + 7);
-    if (period === 'month') end.setMonth(end.getMonth() + 1);
-    const from = `${start.getFullYear()}-${String(start.getMonth()+1).padStart(2,'0')}-${String(start.getDate()).padStart(2,'0')}`;
-    const to = `${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}`;
-    const rows = await prisma.appointment.findMany({ where: { date: { gte: from, lt: to } }, include: { service: { select: { id: true, name: true } } } });
-    const byStatus: Record<string, number> = {}, byService: Record<string, number> = {};
-    for (const row of rows) { byStatus[row.status] = (byStatus[row.status] || 0) + 1; byService[row.service.name] = (byService[row.service.name] || 0) + 1; }
-    return { period, from, to, total: rows.length, byStatus, byService };
+  static async statistics(period: StatisticsPeriod, date = getTodayString()) {
+    const { from, to } = getStatisticsRange(period, date);
+    // `to` es exclusivo, para no duplicar el primer día del siguiente período.
+    const rows = await prisma.appointment.findMany({
+      where: { date: { gte: from, lt: to } },
+      include: { service: { select: { id: true, name: true } } },
+    });
+    return { period, from, to, ...aggregateStatistics(rows) };
   }
 
   static async createAppointment(userId: string, data: CreateAppointmentInput) {

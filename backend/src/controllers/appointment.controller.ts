@@ -14,7 +14,12 @@ export class AppointmentController {
     try {
       const period = String(req.query.period || 'day') as 'day'|'week'|'month';
       if (!['day','week','month'].includes(period)) { res.status(400).json({error:'Periodo inválido'}); return; }
-      res.status(200).json(await AppointmentService.statistics(period, String(req.query.date || new Date().toISOString().slice(0,10))));
+      const date = req.query.date;
+      if (date !== undefined && typeof date !== 'string') {
+        res.status(400).json({ error: 'Fecha inválida: utilice YYYY-MM-DD' });
+        return;
+      }
+      res.status(200).json(await AppointmentService.statistics(period, date));
     } catch (err) { next(err); }
   }
   static async create(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
