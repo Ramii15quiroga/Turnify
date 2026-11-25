@@ -75,6 +75,28 @@ export class ServiceService {
     });
   }
 
+  static async deleteService(id: string) {
+    await this.getServiceById(id);
+
+    const result = await prisma.service.deleteMany({
+      where: {
+        id,
+        isActive: false,
+        appointments: { none: {} },
+      },
+    });
+
+    if (result.count === 0) {
+      const error: any = new Error(
+        'El servicio debe estar desactivado y no tener reservas asociadas.'
+      );
+      error.status = 409;
+      throw error;
+    }
+
+    return { message: 'Servicio eliminado correctamente' };
+  }
+
   static async deactivateService(id: string) {
     await this.getServiceById(id);
     return prisma.service.update({

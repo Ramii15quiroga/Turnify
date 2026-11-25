@@ -47,6 +47,15 @@ export class ServiceController {
     }
   }
 
+  static async remove(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const result = await ServiceService.deleteService(req.params.id);
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async deactivate(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const deactivated = await ServiceService.deactivateService(req.params.id);
