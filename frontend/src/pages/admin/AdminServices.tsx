@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { serviceApi } from '../../services/serviceApi';
 import { Service } from '../../types/service';
 import { ServiceModal } from '../../components/admin/ServiceModal';
@@ -47,6 +47,22 @@ export const AdminServices: React.FC = () => {
     }
     setTimeout(() => setSuccessMessage(null), 4000);
     loadServices();
+  };
+
+  const handleDelete = async (service: Service) => {
+    if (!window.confirm(
+      `¿Eliminar definitivamente "${service.name}"? Esta accion no se puede deshacer.`
+    )) return;
+
+    try {
+      setError(null);
+      setSuccessMessage(null);
+      await serviceApi.deleteService(service.id);
+      setSuccessMessage('Servicio eliminado correctamente');
+      loadServices();
+    } catch (err: any) {
+      setError(err.message || 'Error al eliminar el servicio');
+    }
   };
 
   const handleDeactivate = async (service: Service) => {
@@ -175,13 +191,21 @@ export const AdminServices: React.FC = () => {
     Reactivar
   </button>
 )}
+{!service.isActive && (
+  <button
+    onClick={() => handleDelete(service)}
+    className="inline-flex items-center py-1.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-lg transition"
+  >
+    Eliminar
+  </button>
+)}
 {service.isActive && (
                         <button
                           onClick={() => handleDeactivate(service)}
                           className="inline-flex items-center space-x-1 py-1.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-lg transition"
                         >
                           <Ban className="h-3.5 w-3.5" />
-                          <span>Eliminar</span>
+                          <span>Desactivar</span>
                         </button>
                       )}
                     </td>

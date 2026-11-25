@@ -15,6 +15,10 @@ export const serviceApi = {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
+  deleteService: (id: string) =>
+    apiRequest<{ message: string }>(`/admin/services/${id}`, {
+      method: 'DELETE',
+    }),
   deactivateService: (id: string) =>
     apiRequest<Service>(`/admin/services/${id}/deactivate`, {
       method: 'PATCH',
