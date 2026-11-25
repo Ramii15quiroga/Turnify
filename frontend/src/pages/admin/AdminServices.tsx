@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { serviceApi } from '../../services/serviceApi';
 import { Service } from '../../types/service';
 import { ServiceModal } from '../../components/admin/ServiceModal';
@@ -158,13 +158,30 @@ export const AdminServices: React.FC = () => {
                         <Edit2 className="h-3.5 w-3.5" />
                         <span>Editar</span>
                       </button>
-                      {service.isActive && (
+                      {!service.isActive && (
+  <button
+    onClick={async () => {
+      try {
+        setError(null);
+        await serviceApi.updateService(service.id, { isActive: true });
+        setSuccessMessage('Servicio reactivado correctamente');
+        loadServices();
+      } catch (err: any) {
+        setError(err.message || 'Error al reactivar el servicio');
+      }
+    }}
+    className="inline-flex items-center py-1.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-lg transition"
+  >
+    Reactivar
+  </button>
+)}
+{service.isActive && (
                         <button
                           onClick={() => handleDeactivate(service)}
                           className="inline-flex items-center space-x-1 py-1.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-lg transition"
                         >
                           <Ban className="h-3.5 w-3.5" />
-                          <span>Desactivar</span>
+                          <span>Eliminar</span>
                         </button>
                       )}
                     </td>
@@ -185,3 +202,4 @@ export const AdminServices: React.FC = () => {
     </div>
   );
 };
+
